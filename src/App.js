@@ -52,12 +52,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         {Array.isArray(data) &&
-          data.map(res => {
+          data.map((res, index) => {
             console.log("res", res);
             return (
               <pre
                 style={{ border: "1px solid grey", padding: 10 }}
-                key={res?.id}
+                key={res?.id || index}
               >
                 {" "}
                 {JSON.stringify(res, null, 2)}
