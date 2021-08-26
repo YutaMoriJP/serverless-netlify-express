@@ -13,5 +13,12 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    "/express",
+    createProxyMiddleware({
+      target: "http://localhost:8888",
+      pathRewrite: { "^/express": "/.netlify/functions/express?name=proxied" },
+    })
+  );
   app.use(morgan("combined"));
 };

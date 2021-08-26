@@ -18,14 +18,14 @@ function App() {
   const u4 = "/.netlify/functions/express/users";
   const u5 = "/server"; //path is rewritte to /.netlify/functions/server by setupProxy.js
   const u6 = "/server/express"; //path is rewritten to /.netlify/functions/express by setupProxy.js
-
+  const u7 = "/express";
   useEffect(() => {
     const req = async () => {
       //Promise.all() will reject even if one promise rejects
       //but Promise.allSettled won't reject all the promises
       //as all requests are not dependent on each other, Promise.allSettled is preferred
       await Promise.allSettled(
-        [u1, u2, u3, u4, u5, u6].map(url =>
+        [u1, u2, u3, u4, u5, u6, u7].map(url =>
           fetch(url, {
             method: "GET",
             headers: {
