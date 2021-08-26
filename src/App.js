@@ -20,36 +20,33 @@ function App() {
   const u6 = "/server/express"; //path is rewritten to /.netlify/functions/express by setupProxy.js
   const u7 = "/express";
   useEffect(() => {
-    const req = async () => {
-      //Promise.all() will reject even if one promise rejects
-      //but Promise.allSettled won't reject all the promises
-      //as all requests are not dependent on each other, Promise.allSettled is preferred
-      await Promise.allSettled(
-        [u1, u2, u3, u4, u5, u6, u7].map(url =>
-          fetch(url, {
-            method: "GET",
-            headers: {
-              Accept: "application/json",
-              "Cotent-Type": "application/json",
-              Authorization: "basic",
-            },
-            cache: "default",
-            mode: "same-origin",
-          })
-        )
+    //Promise.all() will reject even if one promise rejects
+    //but Promise.allSettled won't reject all the promises
+    //as all requests are not dependent on each other, Promise.allSettled is preferred
+    Promise.allSettled(
+      [u1, u2, u3, u4, u5, u6, u7].map(url =>
+        fetch(url, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Cotent-Type": "application/json",
+            Authorization: "basic",
+          },
+          cache: "default",
+          mode: "same-origin",
+        })
       )
-        .then(responses => {
-          return Promise.allSettled(responses.map(({ value }) => value.json()));
-        })
-        .then(data => {
-          setData(data.map(getData));
-        })
-        .catch(error => {
-          console.log("error", error);
-          setError(error);
-        });
-    };
-    req();
+    )
+      .then(responses => {
+        return Promise.allSettled(responses.map(({ value }) => value.json()));
+      })
+      .then(data => {
+        setData(data.map(getData));
+      })
+      .catch(error => {
+        console.log("error", error);
+        setError(error);
+      });
   }, []);
   return (
     <div className="App">
